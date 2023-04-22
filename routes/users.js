@@ -3,10 +3,10 @@ const router = express.Router();
 
 // LOGING PAGE
 
-router.get("/login", (req, res) => res.send("welcome user login"));
+router.get("/login", (req, res) => res.render("login"));
 
 // REGISTER PAGE
 
-router.get("/register", (req, res) => res.send("welcome user register"));
+router.get("/register", (req, res) => res.render("register"));
 
 module.exports = router;
