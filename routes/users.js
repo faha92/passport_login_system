@@ -1,4 +1,5 @@
 const express = require("express");
+const { reset } = require("nodemon");
 const router = express.Router();
 
 // LOGING PAGE
@@ -28,13 +29,35 @@ errors.push({msg: "please fill in all fields"})};
 if(password!== password2){
     errors.push({msg: "passwords don't match"})};
     
-    
+
 // password length
 
 if(password.length < 8){
     errors.push({msg: "password should be at least 8 characters"});
     };
 
+
+
+// check for errors 
+
+if(errors.length > 0){
+res.render('register', {
+    
+errors,
+name,
+email,
+password,
+password2
+
 });
+
+} else {
+reset.send('success');
+
+}
+
+
+});
+
 
 module.exports = router;
