@@ -67,36 +67,39 @@ router.post("/register", (req, res) => {
           password2,
         });
       } else {
-        const newUser = new User({
-          name,
-          email,
-          password
-        });
+
+        // generate hashed and salted password with bcrypt
 
         bcrypt.genSalt(10, (err, salt) => {
-          bcrypt.hash(newUser.password, salt, (err, hash) => {
+          bcrypt.hash(password, salt, (err, hash) => {
             if (err) throw err;
-            newUser.password = hash;
-            errors.push({msg: "you are registered"});
-               
+            const hashedPassword = hash;
+
+            // errors.push({msg: "you are registered"});
+        
+            const newUser = new User({
+              name,
+              email,
+              password // <--- attribute is using hashed password
+            });
+        
             newUser
               .save()
               .then(user => {
                 
-                // success
-                
+                // success   
                 errors.push({msg: "you are registered"});
-
-                
-
+                console.log(newUser
+                  );
+        
                 setTimeout(() => {
-                  
-                res.redirect('/users/login');
-              }, 1000);
+                  res.redirect('/users/login');
+                }, 1000);
               })
               .catch(err => console.log(err));
           });
         });
+        
       }
     });
   }
