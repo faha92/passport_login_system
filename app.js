@@ -1,6 +1,7 @@
 const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
 const mongoose = require('mongoose');
+const bodyParser = require("body-parser");
 
 
 const app = express();
@@ -21,7 +22,12 @@ app.set("view engine", "ejs");
 
 // parser
 
-app.use(express.urlencoded({extented: false}));
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// parse application/json
+app.use(bodyParser.json());
+
 
 // Routes
 
