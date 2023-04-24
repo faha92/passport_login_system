@@ -80,7 +80,8 @@ router.post("/register", (req, res) => {
             const newUser = new User({
               name,
               email,
-              password // <--- attribute is using hashed password
+              // password // <--- attribute is not using hashed password x
+              password: hashedPassword // <--- attribute is using hashed password gen by bcrypt √ 
             });
         
             newUser
@@ -93,6 +94,7 @@ router.post("/register", (req, res) => {
                   );
         
                 setTimeout(() => {
+                  req.flash('success_msg', 'You are now registered. Please login!')
                   res.redirect('/users/login');
                 }, 1000);
               })
