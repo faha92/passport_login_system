@@ -19,6 +19,8 @@ router.post("/register", (req, res) => {
   const password = req.body.password.trim();
   const password2 = req.body.password2.trim();
 
+  // const { name, emai, password, password2 } = req.body;
+
   // validation
   let errors = [];
 
@@ -114,6 +116,31 @@ router.post("/login", (req, res, next) => {
     failureRedirect: "/users/login",
     failureFlash: true,
   })(req, res, next);
+});
+
+// // Logout handle
+
+// router.get("/logout", (req, res) => {
+//   req.logout();
+//   req.flash("success_msg", "Your are now logged out");
+//   res.redirect("users/login");
+// });
+
+// Logout
+// router.get("/logout", (req, res) => {
+//   req.logout();
+//   req.flash("success_msg", "You are logged out");
+//   res.redirect("/users/login");
+// });
+
+router.get("/logout", function (req, res, next) {
+  req.logout(function (err) {
+    req.flash("success_msg", "Your are now logged out");
+    res.redirect("/users/login");
+    if (err) {
+      return next(err);
+    }
+  });
 });
 
 module.exports = router;
