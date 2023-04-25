@@ -1,21 +1,26 @@
 const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-const flash = require('connect-flash');
-const session = require('express-session')
+const flash = require("connect-flash");
+const session = require("express-session");
+const passport = require("passport");
 
+// passport config
+require("./config/passport");
 
 const app = express();
 
 //db config
 
-const db = require('./config/keys').mongoURI;
+const db = require("./config/keys").mongoURI;
 
 //connect to Mongo
 
-mongoose.connect(db, { useNewUrlParser: true }).then(() => console.log('mongodb connected')).catch(err => console.log(err));
-
+mongoose
+  .connect(db, { useNewUrlParser: true })
+  .then(() => console.log("mongodb connected"))
+  .catch((err) => console.log(err));
 
 // ejs
 
@@ -30,28 +35,30 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // parse application/json
 app.use(bodyParser.json());
 
-
 // Express session
 app.use(
-    session({
-      secret: 'secret',
-      resave: true,
-      saveUninitialized: true
-    })
-  );
+  session({
+    secret: "secret",
+    resave: true,
+    saveUninitialized: true,
+  })
+);
 
+// passportjs middleware
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Connect flash
 app.use(flash());
 
-
 // Global variables
-app.use(function(req, res, next) {
-    res.locals.success_msg = req.flash('success_msg');
-    res.locals.error_msg = req.flash('error_msg');
-    res.locals.error = req.flash('error');
-    next();
-  });
+app.use(function (req, res, next) {
+  res.locals.success_msg = req.flash("success_msg");
+  res.locals.error_msg = req.flash("error_msg");
+  res.locals.error = req.flash("error");
+  next();
+});
 
 // Routes
 
