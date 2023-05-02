@@ -45,7 +45,7 @@ router.post("/register", (req, res) => {
     errors.push({ msg: "Password should be at least 8 characters long" });
   }
   
-  // password policy validation missing <-- rule would trigger here
+  // ##### password policy validation missing <-- rule would trigger here
 
   // check for errors
   if (errors.length > 0) {
@@ -85,7 +85,7 @@ router.post("/register", (req, res) => {
               name,
               email,
       
-              password, // <--- attribute is not using hashed password (rule would triggr here) 
+              password, // <--- ##### attribute is not using hashed password (rule would triggr here) 
             });
 
             newUser
@@ -112,7 +112,7 @@ router.post("/register", (req, res) => {
 });
 
 // Login
-router.post("/login", (req, res, next) => { // no brute force protection!
+router.post("/login", (req, res, next) => { // #### no brute force protection!
   passport.authenticate("local", {
     successRedirect: "/dashboard",
     failureRedirect: "/users/login",
