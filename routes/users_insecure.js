@@ -44,6 +44,8 @@ router.post("/register", (req, res) => {
   if (password.length < 8) {
     errors.push({ msg: "Password should be at least 8 characters long" });
   }
+  
+  // password policy validation missing <-- rule would trigger here
 
   // check for errors
   if (errors.length > 0) {
@@ -75,15 +77,15 @@ router.post("/register", (req, res) => {
         bcrypt.genSalt(10, (err, salt) => {
           bcrypt.hash(password, salt, (err, hash) => {
             if (err) throw err;
-            const hashedPassword = hash;
+            // const hashedPassword = hash;
 
             // errors.push({msg: "you are registered"});
 
             const newUser = new User({
               name,
               email,
-              // password // <--- attribute is not using hashed password x
-              password: hashedPassword, // <--- attribute is using hashed password gen by bcrypt √
+      
+              password, // <--- attribute is not using hashed password (rule would triggr here) 
             });
 
             newUser
@@ -110,13 +112,15 @@ router.post("/register", (req, res) => {
 });
 
 // Login
-router.post("/login", (req, res, next) => {
+router.post("/login", (req, res, next) => { // no brute force protection!
   passport.authenticate("local", {
     successRedirect: "/dashboard",
     failureRedirect: "/users/login",
     failureFlash: true,
   })(req, res, next);
 });
+
+
 
 // // Logout handle
 
