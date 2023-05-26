@@ -84,8 +84,9 @@ const hashedPassword = bcrypt.hashSync(password, 10);
 const newUser = new User({
               name,
               email,
-              password: hashedPassword // <--- attribute is not using hashed password x
-              //password: hashedPassword,  <--- attribute is using hashed password gen by bcrypt √
+   
+            password: hashedPassword // <--- attribute is not using hashed password x
+   
             });
 
             newUser
