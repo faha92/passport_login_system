@@ -82,8 +82,8 @@ router.post("/register", (req, res) => {
             const newUser = new User({
               name,
               email,
-              // password // <--- attribute is not using hashed password x
-              password: hashedPassword, // <--- attribute is using hashed password gen by bcrypt √
+              password // <--- attribute is not using hashed password x
+              //password: hashedPassword,  <--- attribute is using hashed password gen by bcrypt √
             });
 
             newUser
